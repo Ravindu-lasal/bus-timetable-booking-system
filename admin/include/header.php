@@ -69,8 +69,8 @@
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#">Add buses</a>
-                                <a class="nav-link" href="#">Add location</a>
+                                <a class="nav-link" href="buses.php">Add buses</a>
+                                <a class="nav-link" href="location.php">Add location</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
