@@ -66,7 +66,7 @@
                             <li class="dropdown"><a href="#"><span>Admin panel</span> <i
                                         class="bi bi-chevron-down toggle-dropdown"></i></a>
                                 <ul>
-                                    <li><a href="./admin/index.php">Admin login</a></li>
+                                    <li><a href="./admin/admin_login.php">Admin login</a></li>
                                     <li><a href="./admin/login.php">Owner login</a></li>
                                 </ul>
                             </li>
