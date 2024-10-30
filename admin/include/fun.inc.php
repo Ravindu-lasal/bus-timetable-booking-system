@@ -44,3 +44,47 @@ function busUpdate($pdo, $busName, $busNumber, $busSeat, $busId)
         return "Error: " . $e->getMessage();
     }
 }
+
+
+
+
+// Function to create a new location
+function addLocation($pdo, $startLocation, $endLocation, $distanceKm)
+{
+    try {
+        // Insert data into the routes table
+        $stmt = $pdo->prepare("INSERT INTO routes (start_location, end_location, distance_km) VALUES (:start_location, :end_location, :distance_km)");
+        $stmt->bindParam(':start_location', $startLocation);
+        $stmt->bindParam(':end_location', $endLocation);
+        $stmt->bindParam(':distance_km', $distanceKm);
+
+        if ($stmt->execute()) {
+            return "Location added successfully";
+        } else {
+            return "Error adding location.";
+        }
+    } catch (PDOException $e) {
+        return "Error: " . $e->getMessage();
+    }
+}
+
+
+function editLocation($pdo, $route_id, $startLocation, $endLocation, $distanceKm)
+{
+    try {
+        // Update data in the routes table
+        $stmt = $pdo->prepare("UPDATE routes SET start_location = :start_location, end_location = :end_location, distance_km = :distance_km WHERE route_id = :route_id");
+        $stmt->bindParam(':start_location', $startLocation);
+        $stmt->bindParam(':end_location', $endLocation);
+        $stmt->bindParam(':distance_km', $distanceKm);
+        $stmt->bindParam(':route_id', $route_id);
+
+        if ($stmt->execute()) {
+            return "Location updated successfully";
+        } else {
+            return "Error updating location.";
+        }
+    } catch (PDOException $e) {
+        return "Error: " . $e->getMessage();
+    }
+}

@@ -3,7 +3,7 @@
 
 
 
-<!-- add location form -->
+<!-- Add Location Form -->
 <div class="modal fade" id="AddLocation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -12,29 +12,88 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="row g-3" id="Addlocation">
+                <form class="row g-3" id="Addlocation" action="include/Add_location.php" method="POST">
+                    <input type="hidden" name="route_id">
                     <div class="col-12">
                         <label for="startlocation" class="form-label">Start Location</label>
-                        <input type="text" class="form-control" id="startlocation">
+                        <input type="text" class="form-control" name="start_location" required>
                     </div>
                     <div class="col-12">
                         <label for="endlocation" class="form-label">End Location</label>
-                        <input type="text" class="form-control" id="endlocation">
+                        <input type="text" class="form-control" name="end_location" required>
                     </div>
                     <div class="col-md-6">
                         <label for="inputkm" class="form-label">Distance (km)</label>
-                        <input type="number" class="form-control" id="inputkm">
+                        <input type="number" class="form-control" name="distance_km" required>
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" form="Addbus" class="btn btn-primary">Add Location</button>
+                <button type="submit" form="Addlocation" class="btn btn-primary">Add Location</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
+<!-- Edit Location Form -->
+<div class="modal fade" id="editLocation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Edit Location</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" id="elocation" action="include/Add_location.php" method="POST">
+                    <input type="text" name="route_id" id="route_id">
+                    <div class="col-12">
+                        <label for="startlocation" class="form-label">Start Location</label>
+                        <input type="text" class="form-control" name="start_location" id="startlocation" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="endlocation" class="form-label">End Location</label>
+                        <input type="text" class="form-control" name="end_location" id="endlocation" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputkm" class="form-label">Distance (km)</label>
+                        <input type="number" class="form-control" name="distance_km" id="inputkm" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="elocation" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const editButtons = document.querySelectorAll('.edit-route');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const routeId = this.getAttribute('data-id');
+
+                // Fetch route data
+                fetch(`include/get_route.php?route_id=${routeId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('route_id').value = data.route_id;
+                        document.getElementById('startlocation').value = data.start_location;
+                        document.getElementById('endlocation').value = data.end_location;
+                        document.getElementById('inputkm').value = data.distance_km;
+                    })
+                    .catch(error => console.error('Error fetching route data:', error));
+            });
+        });
+    });
+</script>
 
 
 
@@ -91,7 +150,7 @@
                                 echo '<td>' . htmlspecialchars($row['end_location']) . '</td>';
                                 echo '<td>' . htmlspecialchars($row['distance_km']) . '</td>';
                                 echo '<td class="d-flex align-items-lg-center justify-content-around">';
-                                echo '<a href="#" class="edit-route" data-bs-toggle="modal" data-bs-target="#routeModal" data-id="' . $row['route_id'] . '"><i class="fas fa-user-edit fa-lg"></i></a>';
+                                echo '<a href="#" class="edit-route" data-bs-toggle="modal" data-bs-target="#editLocation" data-id="' . $row['route_id'] . '"><i class="fas fa-user-edit fa-lg"></i></a>';
                                 echo '<a href="include/delete.php?type=routes&id=' . $row['route_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this route?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
                                 echo '</td>';
                                 echo '</tr>';
