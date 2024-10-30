@@ -2,47 +2,67 @@
 <?php include "include/header.php"; ?>
 
 
+<!-- bus Schedules form -->
 
-<!-- add location form -->
-<div class="modal fade" id="AddLocation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="Addschedule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Add Location</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Add Schedules</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form class="row g-3" id="Addlocation">
                     <div class="col-12">
-                        <label for="startlocation" class="form-label">Start Location</label>
-                        <input type="text" class="form-control" id="startlocation">
+                        <label for="bus_name" class="form-label">bus name</label>
+                        <select class="form-select" class="form-control" id="bus_name">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
                     </div>
                     <div class="col-12">
-                        <label for="endlocation" class="form-label">End Location</label>
-                        <input type="text" class="form-control" id="endlocation">
+                        <label for="bus_location" class="form-label">location</label>
+                        <select class="form-select" class="form-control" id="bus_location">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
                     </div>
-                    <div class="col-md-6">
-                        <label for="inputkm" class="form-label">Distance (km)</label>
-                        <input type="number" class="form-control" id="inputkm">
+                    <div class="col-6">
+                        <label for="starttime" class="form-label">Start time</label>
+                        <input type="time" class="form-control" id="starttime">
                     </div>
-
+                    <div class="col-6">
+                        <label for="endtime" class="form-label">End time</label>
+                        <input type="time" class="form-control" id="endtime">
+                    </div>
+                    <div class="col-md-8">
+                        <label for="inputdate" class="form-label">Traval Date</label>
+                        <input type="date" class="form-control" id="inputdate">
+                    </div>
+                    <div class="col-8">
+                        <label for="price" class="form-label">Total price (Rs)</label>
+                        <input type="text" class="form-control" id="price">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" form="Addbus" class="btn btn-primary">Add Location</button>
+                <button type="button" form="addschedule" class="btn btn-primary">Add Schedules</button>
             </div>
         </div>
     </div>
 </div>
 
 
-
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Location</h1>
+        <h1 class="mt-4">Schedules</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Dashboard/location</li>
+            <li class="breadcrumb-item active">Dashboard/Schedules</li>
         </ol>
 
         <!-- slide card start -->
@@ -52,29 +72,28 @@
             <section id="minimal-statistics">
                 <div class="row">
                     <div class="col-12 mt-3 mb-1">
-                        <h4 class="text-uppercase">Availible location Details</h4>
+                        <h4 class="text-uppercase">Availible Schedules Details</h4>
                     </div>
                 </div>
             </section>
         </div>
         <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                find your location
-            </div>
+            
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-end mb-4">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddLocation">Add location
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Addschedule">Add Schedules
                     </button>
                 </div>
                 <div class="table-responsive">
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
                         <thead>
                             <tr class="text-dark">
-                                <th scope="col">Route ID</th>
-                                <th scope="col">Start Location</th>
-                                <th scope="col">End Location</th>
-                                <th scope="col">Distance (km)</th>
+                                <th scope="col">Bus number</th>
+                                <th scope="col">Location name</th>
+                                <th scope="col">Start time</th>
+                                <th scope="col">End time</th>
+                                <th scope="col">Traval Date</th>
+                                <th scope="col">Price</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>

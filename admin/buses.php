@@ -1,6 +1,41 @@
 <?php require_once "include/inc.db_conn.php"; ?>
 <?php include "include/header.php"; ?>
 
+
+
+<!-- Add bus Modal -->
+<div class="modal fade" id="Addbus" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3"  id="Addbus">
+                    <div class="col-12">
+                        <label for="inputName" class="form-label">Bus name</label>
+                        <input type="text" class="form-control" id="inputName">
+                    </div>
+                    <div class="col-12">
+                        <label for="bus_number" class="form-label">Input bus number</label>
+                        <input type="text" class="form-control" id="bus_number">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputCity" class="form-label">Available Seats</label>
+                        <input type="text" class="form-control" id="inputCity">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" form="Addbus" class="btn btn-primary">Add Bus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">Buses</h1>
@@ -27,7 +62,7 @@
             </div>
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-end mb-4">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#batchModal">Add buses
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Addbus">Add buses
                     </button>
                 </div>
                 <div class="table-responsive">
