@@ -88,3 +88,54 @@ function editLocation($pdo, $route_id, $startLocation, $endLocation, $distanceKm
         return "Error: " . $e->getMessage();
     }
 }
+
+
+
+// Function to create a new schedule
+function addSchedule($pdo, $busId, $routeId, $startTime, $endTime, $travelDate, $price)
+{
+    try {
+        // Insert data into the schedules table
+        $stmt = $pdo->prepare("INSERT INTO schedules (bus_id, route_id, start_time, end_time, travel_date, price) VALUES (:bus_id, :route_id, :start_time, :end_time, :travel_date, :price)");
+        $stmt->bindParam(':bus_id', $busId);
+        $stmt->bindParam(':route_id', $routeId);
+        $stmt->bindParam(':start_time', $startTime);
+        $stmt->bindParam(':end_time', $endTime);
+        $stmt->bindParam(':travel_date', $travelDate);
+        $stmt->bindParam(':price', $price);
+
+        if ($stmt->execute()) {
+            return "Schedule added successfully";
+        } else {
+            return "Error adding schedule.";
+        }
+    } catch (PDOException $e) {
+        return "Error: " . $e->getMessage();
+    }
+}
+
+
+function updateSchedule($pdo, $busId, $routeId, $startTime, $endTime, $travelDate, $price, $schedule_id) { 
+    try {
+        // Prepare the SQL statement to update the schedule
+        $stmt = $pdo->prepare("UPDATE schedules SET bus_id = :bus_id, route_id = :route_id, start_time = :start_time, end_time = :end_time, travel_date = :travel_date, price = :price WHERE schedule_id = :schedule_id");
+        
+        // Bind parameters
+        $stmt->bindParam(':bus_id', $busId);
+        $stmt->bindParam(':route_id', $routeId);
+        $stmt->bindParam(':start_time', $startTime);
+        $stmt->bindParam(':end_time', $endTime);
+        $stmt->bindParam(':travel_date', $travelDate);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':schedule_id', $schedule_id);
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            return "Schedule updated successfully";
+        } else {
+            return "Error updating schedule.";
+        }
+    } catch (PDOException $e) {
+        return "Error: " . $e->getMessage();
+    }
+}
