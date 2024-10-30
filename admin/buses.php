@@ -1,40 +1,72 @@
 <?php require_once "include/inc.db_conn.php"; ?>
 <?php include "include/header.php"; ?>
 
-
-
-<!-- Add bus Modal -->
-<div class="modal fade" id="Addbus" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Add Bus Modal -->
+<div class="modal fade" id="busModal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="busModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <h5 class="modal-title" id="busModalLabel">Edit/Add Bus</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="row g-3"  id="Addbus">
+                <form class="row g-3" id="abusForm" action="include/Add_bus.php" method="POST">
                     <div class="col-12">
-                        <label for="inputName" class="form-label">Bus name</label>
-                        <input type="text" class="form-control" id="inputName">
+                        <label for="bus_name" class="form-label">Bus name</label>
+                        <input type="text" class="form-control"  name="bus_name" required>
                     </div>
                     <div class="col-12">
                         <label for="bus_number" class="form-label">Input bus number</label>
-                        <input type="text" class="form-control" id="bus_number">
+                        <input type="text" class="form-control" name="bus_number" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="inputCity" class="form-label">Available Seats</label>
-                        <input type="text" class="form-control" id="inputCity">
+                        <label for="bus_seat" class="form-label">Available Seats</label>
+                        <input type="number" class="form-control" name="bus_seat" required>
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" form="Addbus" class="btn btn-primary">Add Bus</button>
+                <button type="submit" form="abusForm" class="btn btn-primary">Save Changes</button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Edit Bus Modal -->
+<div class="modal fade" id="busModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="busModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="busModalLabel">Edit/Add Bus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" id="busForm" action="include/Add_bus.php" method="POST">
+                    <input type="hidden" name="bus_id" id="bus_id">
+                    <div class="col-12">
+                        <label for="bus_name" class="form-label">Bus name</label>
+                        <input type="text" class="form-control" id="bus_name" name="bus_name" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="bus_number" class="form-label">Input bus number</label>
+                        <input type="text" class="form-control" id="bus_number" name="bus_number" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="bus_seat" class="form-label">Available Seats</label>
+                        <input type="number" class="form-control" id="bus_seat" name="bus_seat" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="busForm" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <main>
     <div class="container-fluid px-4">
@@ -62,7 +94,7 @@
             </div>
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-end mb-4">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Addbus">Add buses
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#busModal1">Add buses
                     </button>
                 </div>
                 <div class="table-responsive">
@@ -104,6 +136,31 @@
         </div>
     </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.edit-bus');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const busId = this.getAttribute('data-id');
+
+            // Fetch bus data (you could do an AJAX call here if needed)
+            fetch(`include/get_bus.php?bus_id=${busId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('bus_id').value = data.bus_id;
+                    document.getElementById('bus_name').value = data.bus_name;
+                    document.getElementById('bus_number').value = data.bus_number;
+                    document.getElementById('bus_seat').value = data.seats_available;
+                })
+                .catch(error => console.error('Error fetching bus data:', error));
+        });
+    });
+});
+</script>
+
 
 
 <?php include "./include/footer.php"; ?>
