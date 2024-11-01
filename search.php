@@ -1,9 +1,8 @@
-
 <?php include "admin/include/inc.db_conn.php"; ?>
 <?php
-  session_start();
+session_start();
 
-  ?>
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,9 +106,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="row g-3" id="addschedule">
+          <form class="row g-3" id="addschedule" method="POST" action="./admin/include/Add_booking.php">
             <input type="hidden" name="schedule_id" id="schedule_id">
             <input type="hidden" name="bus_id" id="bus_id">
+            <input type="hidden" name="route_id" id="route_id">
+            <input type="hidden" name="user_id" value="<?php echo $_SESSION["userid"] ?>">
             <div class="col-12">
               <h6 class="fw-bolder">Bus Name</h6>
               <p id="bus_name"></p>
@@ -144,15 +145,15 @@
             </div>
             <div class="col-12">
               <label for="Bname" class="form-label fw-bolder">Booking name</label>
-              <input type="text" class="form-control" id="Bname" required>
+              <input type="text" class="form-control" id="Bname" name="passenger_name" required>
             </div>
             <div class="col-md-6">
-              <label for="inputnumber" class="form-label fw-bolder">Total seats</label>
-              <input type="number" min="0" max="10" class="form-control" id="inputnumber" required>
+              <label for="inputnumber" class="form-label fw-bolder">How many tickets</label>
+              <input type="number" min="0" max="10" class="form-control" id="inputnumber" name="total_ticket" required>
             </div>
             <div class="col-md-6">
               <label for="total_price" class="form-label fw-bolder">Total price</label>
-              <input type="text" class="form-control" id="total_price">
+              <input type="text" class="form-control" id="total_price" name="total_price">
             </div>
           </form>
         </div>
@@ -190,8 +191,8 @@
                   <th scope="col">Traval Date</th>
                   <th scope="col">Price</th>
                   <?php
-                  if (isset($_SESSION["username"])){
-                  echo '<th scope="col">Booking</th>';
+                  if (isset($_SESSION["username"])) {
+                    echo '<th scope="col">Booking</th>';
                   }
                   ?>
                 </tr>
@@ -206,8 +207,8 @@
                   <th scope="col">Traval Date</th>
                   <th scope="col">Price</th>
                   <?php
-                  if (isset($_SESSION["username"])){
-                  echo '<th scope="col">Booking</th>';
+                  if (isset($_SESSION["username"])) {
+                    echo '<th scope="col">Booking</th>';
                   }
                   ?>
                 </tr>
@@ -231,13 +232,13 @@
                   echo '<td>' . htmlspecialchars($row['start_time']) . '</td>';
                   echo '<td>' . htmlspecialchars($row['travel_date']) . '</td>';
                   echo '<td>' . htmlspecialchars($row['price']) . '</td>';
-                  if (isset($_SESSION["username"])){
-                  echo '<td class="justify-content-end">';
-                  echo '<a class="addbooking btn btn-primary btn-sm" href="#" role="button" data-bs-toggle="modal" 
+                  if (isset($_SESSION["username"])) {
+                    echo '<td class="justify-content-end">';
+                    echo '<a class="addbooking btn btn-primary btn-sm" href="#" role="button" data-bs-toggle="modal" 
              data-bs-target="#AddBooking" data-id="' . $row['schedule_id'] . '">
               <i class="fas fa-user-edit fa-lg"></i> Booking Now 
           </a>';
-                  echo '</td>';
+                    echo '</td>';
                   }
                   echo '</tr>';
                 }
@@ -254,6 +255,15 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+
+      // Function to calculate total price
+      function calculateTotalPrice() {
+        const ticketPrice = parseFloat(document.getElementById('ticket_price').textContent);
+        const seatCount = parseInt(document.getElementById('inputnumber').value) || 0;
+        const totalPrice = ticketPrice * seatCount;
+        document.getElementById('total_price').value = totalPrice.toFixed(2); // Display the total price
+      }
+
       document.querySelectorAll('.addbooking[data-bs-toggle="modal"]').forEach(button => {
         button.addEventListener('click', (event) => {
           const scheduleId = button.getAttribute('data-id');
@@ -265,6 +275,7 @@
               if (!data.error) {
                 document.getElementById('schedule_id').value = data.schedule_id;
                 document.getElementById('bus_id').value = data.bus_id;
+                document.getElementById('route_id').value = data.route_id;
                 document.getElementById('bus_name').textContent = data.bus_number;
                 document.getElementById('start_location').textContent = data.start_location;
                 document.getElementById('starttime').textContent = data.start_time;
@@ -287,6 +298,14 @@
                   document.getElementById('inputnumber').disabled = true;
                   document.getElementById('total_price').disabled = true;
                   document.getElementById('Add_schedule').disabled = true;
+                }
+
+                document.getElementById('total_price').value = '0.00';
+                document.getElementById('inputnumber').value = '';
+
+                // Enable seat number input only if there are available seats
+                if (data.available_seats > 0) {
+                  document.getElementById('inputnumber').addEventListener('input', calculateTotalPrice);
                 }
               } else {
                 alert(data.error);

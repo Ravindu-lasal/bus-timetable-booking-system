@@ -68,7 +68,7 @@
 
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-end mb-4">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddBooking">Booking bus
+                    <button type="button" class="btn btn-primary">Delete All
                     </button>
                 </div>
                 <div class="table-responsive">
@@ -77,7 +77,8 @@
                             <tr class="text-dark">
                                 <th scope="col">Ref.No</th>
                                 <th scope="col">User name</th>
-                                <th scope="col">schedule id</th>
+                                <th scope="col">schedule location</th>
+                                <th scope="col">bus name</th>
                                 <th scope="col">Booking date</th>
                                 <th scope="col">Booking name</th>
                                 <th scope="col">Qty</th>
@@ -89,26 +90,52 @@
                         <tbody>
                             <?php
                             // Assuming $pdo is your PDO instance connected to the database
-                            $stmt = $pdo->query("SELECT booking_id,ref_no,user_id,schedule_id,booking_date,passenger_name,seats_booked,total_price, status FROM bookings;");
+                            $stmt = $pdo->query("
+    SELECT 
+        bookings.booking_id,
+        bookings.ref_no,
+        bookings.user_id,
+        bookings.schedule_id,
+        bookings.booking_date,
+        bookings.passenger_name,
+        bookings.seats_booked,
+        bookings.total_price,
+        bookings.status,
+        schedules.bus_id,
+        buses.bus_name,
+        users.username,
+        routes.start_location,
+        routes.end_location
+    FROM 
+        bookings
+    JOIN schedules ON bookings.schedule_id = schedules.schedule_id
+    JOIN buses ON schedules.bus_id = buses.bus_id
+    JOIN users ON bookings.user_id = users.user_id
+    JOIN routes ON schedules.route_id = routes.route_id
+");
+
                             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             foreach ($result as $row) {
                                 echo '<tr>';
                                 echo '<td>' . htmlspecialchars($row['ref_no']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['user_id']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['schedule_id']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['username']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['start_location']) .'-'. htmlspecialchars($row['end_location']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['bus_name']) . '</td>'; // Displaying bus name
                                 echo '<td>' . htmlspecialchars($row['booking_date']) . '</td>';
                                 echo '<td>' . htmlspecialchars($row['passenger_name']) . '</td>';
                                 echo '<td>' . htmlspecialchars($row['seats_booked']) . '</td>';
                                 echo '<td>' . htmlspecialchars($row['total_price']) . '</td>';
                                 echo '<td>' . htmlspecialchars($row['status']) . '</td>';
                                 echo '<td class="d-flex align-items-lg-center justify-content-around">';
-                                echo '<a href="#" class="edit-route" data-bs-toggle="modal" data-bs-target="#routeModal" data-id="' . $row['booking_id'] . '"><i class="fas fa-user-edit fa-lg"></i></a>';
                                 echo '<a href="include/delete.php?type=routes&id=' . $row['booking_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this booking?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
                                 echo '</td>';
                                 echo '</tr>';
                             }
                             ?>
+
+
+
                         </tbody>
                     </table>
                 </div>

@@ -8,7 +8,7 @@ if (isset($_GET['schedule_id'])) {
     
     // Prepare and execute the query to fetch schedule and bus details
     $stmt = $pdo->prepare("SELECT s.schedule_id, b.bus_number, b.seats_available, r.start_location, r.end_location, 
-                                  s.start_time, s.end_time, s.travel_date, s.price, s.bus_id
+                                  s.start_time, s.end_time, s.travel_date, s.price, s.bus_id, r.route_id
                            FROM schedules s 
                            JOIN buses b ON s.bus_id = b.bus_id 
                            JOIN routes r ON s.route_id = r.route_id

@@ -139,3 +139,39 @@ function updateSchedule($pdo, $busId, $routeId, $startTime, $endTime, $travelDat
         return "Error: " . $e->getMessage();
     }
 }
+
+
+
+function bookigcreate($pdo, $passenger_name, $total_ticket, $total_price, $schedule_id, $bus_id, $route_id, $user_id) {
+    // Check the latest reference number
+    $stmt = $pdo->query("SELECT ref_no FROM bookings ORDER BY ref_no DESC LIMIT 1");
+    $lastRefNo = $stmt->fetchColumn();
+
+    // Generate a new reference number
+    if ($lastRefNo) {
+        $number = (int)substr($lastRefNo, 4) + 1;
+        $newRefNo = 'SLTB' . str_pad($number, 7, '0', STR_PAD_LEFT);
+    } else {
+        // First reference number if none exist
+        $newRefNo = 'SLTB0000001';
+    }
+
+    // Prepare and execute the insert query
+    $stmt = $pdo->prepare("INSERT INTO bookings (ref_no, user_id, passenger_name, seats_booked, total_price, schedule_id, bus_id, route_id)
+                           VALUES (:ref_no, :user_id, :passenger_name, :seats_booked, :total_price, :schedule_id, :bus_id, :route_id)");
+    $stmt->bindParam(':ref_no', $newRefNo);
+    $stmt->bindParam(':passenger_name', $passenger_name);
+    $stmt->bindParam(':seats_booked', $total_ticket);
+    $stmt->bindParam(':total_price', $total_price);
+    $stmt->bindParam(':schedule_id', $schedule_id);
+    $stmt->bindParam(':bus_id', $bus_id);
+    $stmt->bindParam(':route_id', $route_id);
+    $stmt->bindParam(':user_id', $user_id);
+
+    if ($stmt->execute()) {
+        return "Booking created successfully with reference number $newRefNo.";
+    } else {
+        return "Failed to create booking.";
+    }
+}
+

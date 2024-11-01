@@ -85,7 +85,7 @@ session_start();
                 <!-- user login php button -->
                 <?php
                 if (isset($_SESSION["username"])) {
-                    echo '<a class="btn-getstarted" href="#">' . $_SESSION["username"] . '</a>';
+                    echo '<a class="btn-getstarted" href="#">' . $_SESSION["userid"] . '</a>';
                     echo '<a class="btn-getstarted" href="./include/logout.inc.php">Log out</a>';
                 } else {
                     echo '<a class="btn-getstarted" href="./User Login.php">User login</a>';
