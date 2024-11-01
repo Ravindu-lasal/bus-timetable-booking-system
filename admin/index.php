@@ -98,20 +98,7 @@
                     DataTable Example
                 </div>
                 <div class="card-body">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
-                        <thead>
-                            <tr class="text-dark">
-                                <th scope="col">Batch Year</th>
-                                <th scope="col">Batch Name</th>
-                                <th scope="col">Department</th>
-                                <th scope="col">Batch Semester</th>
-                                <th scope="col">Students</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
+                   
                 </div>
             </div>
         </div>
