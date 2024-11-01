@@ -126,7 +126,7 @@
                         <input type="date" class="form-control" name="travel_date" id="inputdate" required>
                     </div>
                     <div class="col-8">
-                        <label for="price" class="form-label">Total Price (Rs)</label>
+                        <label for="price" class="form-label">Ticket Price (Rs)</label>
                         <input type="text" class="form-control" name="price" id="price" required>
                     </div>
                 </form>

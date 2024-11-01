@@ -1,7 +1,7 @@
 <?php
-  session_start();
+session_start();
 
-  ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -84,10 +84,10 @@
 
                 <!-- user login php button -->
                 <?php
-                if(isset($_SESSION["username"])) {
-                    echo '<a class="btn-getstarted" href="#">'. $_SESSION["username"] . '</a>';                    
+                if (isset($_SESSION["username"])) {
+                    echo '<a class="btn-getstarted" href="#">' . $_SESSION["username"] . '</a>';
                     echo '<a class="btn-getstarted" href="./include/logout.inc.php">Log out</a>';
-                } else{
+                } else {
                     echo '<a class="btn-getstarted" href="./User Login.php">User login</a>';
                 }
                 ?>
@@ -116,32 +116,41 @@
                 <div class="row gy-4 mt-5 justify-content-center" data-aos="fade-up" data-aos-delay="200">
                     <div class="col-xl-2 col-md-4" data-aos="fade-up" data-aos-delay="300">
                         <div class="icon-box">
-                            <a href="./search.html">
+                            <a href="./search.php">
                                 <i class="bi bi-binoculars"></i>
-                                <h3>bus time
-                            </a></h3>
+                                <h3>bus time</h3>
+                            </a>
                         </div>
                     </div>
                     <div class="col-xl-2 col-md-4" data-aos="fade-up" data-aos-delay="400">
                         <div class="icon-box">
                             <a href="">
                                 <i class="bi bi-bullseye"></i>
-                                <h3>Bus tracking
-                            </a></h3>
+                                <h3>Bus tracking</h3>
+                            </a>
                         </div>
                     </div>
                     <div class="col-xl-2 col-md-4" data-aos="fade-up" data-aos-delay="500">
                         <div class="icon-box">
-                            <a href="">
-                                <i class="bi bi-bus-front"></i>
-                                <h3>Bus booking
-                            </a></h3>
+                            <!-- user login php button -->
+                            <?php
+                            if (!isset($_SESSION["username"])) {
+                                echo '<a onclick="myFunction()" href="./User Login.php"> <i class="bi bi-bus-front"></i> <h3>Bus booking</h3> </a>';
+                            } else {
+                                echo '<a href="./search.php"> <i class="bi bi-bus-front"></i> <h3>Bus booking</h3> </a>';
+                            }
+                            ?>
+
                         </div>
                     </div>
                 </div>
 
             </div>
-
+            <script>
+                function myFunction() {
+                    alert("Please Login First!");
+                }
+            </script>
         </section><!-- /Hero Section -->
 
         <!-- About Section -->
