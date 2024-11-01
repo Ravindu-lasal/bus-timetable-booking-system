@@ -2,7 +2,7 @@
 $severName = "localhost";
 $dbUsername = "root";
 $dbPassword = "";
-$dbName = "bus_sltb";
+$dbName = "sltb_bus";
 
 $conn = mysqli_connect($severName, $dbUsername, $dbPassword, $dbName);
 

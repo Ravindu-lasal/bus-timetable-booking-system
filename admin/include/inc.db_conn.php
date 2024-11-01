@@ -1,7 +1,7 @@
 <?php
 
 $host = 'localhost';
-$dbname = 'bus_sltb'; 
+$dbname = 'sltb_bus'; 
 $user = 'root'; 
 $pass = ''; 
 
