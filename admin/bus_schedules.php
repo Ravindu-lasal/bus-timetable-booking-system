@@ -226,7 +226,7 @@
                                 echo '<td>' . htmlspecialchars($row['price']) . '</td>';
                                 echo '<td class="d-flex align-items-lg-center justify-content-around">';
                                 echo '<a href="#" class="edit-schedule" data-bs-toggle="modal" data-bs-target="#editschedule" data-id="' . $row['schedule_id'] . '"><i class="fas fa-user-edit fa-lg"></i></a>';
-                                echo '<a href="include/delete.php?type=schedules&id=' . $row['schedule_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this schedule?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
+                                echo '<a href="include/delete.php?type=bus_schedules&id=' . $row['schedule_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this schedule?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
                                 echo '</td>';
                                 echo '</tr>';
                             }

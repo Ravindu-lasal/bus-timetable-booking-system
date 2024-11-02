@@ -151,7 +151,7 @@
                                 echo '<td>' . htmlspecialchars($row['distance_km']) . '</td>';
                                 echo '<td class="d-flex align-items-lg-center justify-content-around">';
                                 echo '<a href="#" class="edit-route" data-bs-toggle="modal" data-bs-target="#editLocation" data-id="' . $row['route_id'] . '"><i class="fas fa-user-edit fa-lg"></i></a>';
-                                echo '<a href="include/delete.php?type=routes&id=' . $row['route_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this route?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
+                                echo '<a href="include/delete.php?type=location&id=' . $row['route_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this route?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
                                 echo '</td>';
                                 echo '</tr>';
                             }

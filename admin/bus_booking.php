@@ -128,7 +128,7 @@
                                 echo '<td>' . htmlspecialchars($row['total_price']) . '</td>';
                                 echo '<td>' . htmlspecialchars($row['status']) . '</td>';
                                 echo '<td class="d-flex align-items-lg-center justify-content-around">';
-                                echo '<a href="include/delete.php?type=routes&id=' . $row['booking_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this booking?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
+                                echo '<a href="include/delete.php?type=bus_booking&id=' . $row['booking_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this booking?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
                                 echo '</td>';
                                 echo '</tr>';
                             }
