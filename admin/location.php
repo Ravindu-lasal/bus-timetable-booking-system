@@ -48,7 +48,7 @@
             </div>
             <div class="modal-body">
                 <form class="row g-3" id="elocation" action="include/Add_location.php" method="POST">
-                    <input type="text" name="route_id" id="route_id">
+                    <input type="hidden" name="route_id" id="route_id">
                     <div class="col-12">
                         <label for="startlocation" class="form-label">Start Location</label>
                         <input type="text" class="form-control" name="start_location" id="startlocation" required>

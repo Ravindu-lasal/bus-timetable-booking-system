@@ -159,7 +159,7 @@ session_start();
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" form="addschedule" class="btn btn-primary" id="Add_schedule">Add Schedule</button>
+          <button type="submit" form="addschedule" class="btn btn-primary" id="Add_schedule">Booking Now</button>
         </div>
       </div>
     </div>
