@@ -67,7 +67,7 @@ session_start();
                                         class="bi bi-chevron-down toggle-dropdown"></i></a>
                                 <ul>
                                     <li><a href="./admin/admin_login.php">Admin login</a></li>
-                                    <li><a href="./admin/login.php">Owner login</a></li>
+
                                 </ul>
                             </li>
                             <li><a href="#">Users</a></li>
@@ -77,6 +77,11 @@ session_start();
                         </ul>
                     </li>
                     <li><a href="#contact">Contact</a></li>
+                    <?php
+                    if (isset($_SESSION["username"])) {
+                        echo '<li><a href="#">My Booking</a></li>';
+                    }
+                    ?>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>

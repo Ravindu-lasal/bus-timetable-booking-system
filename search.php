@@ -66,8 +66,7 @@ session_start();
               <li class="dropdown"><a href="#"><span>Admin panel</span> <i
                     class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
-                  <li><a href="#">Admin login</a></li>
-                  <li><a href="#">Owner login</a></li>
+                  <li><a href="./admin/admin_login.php">Admin login</a></li>
                 </ul>
               </li>
               <li><a href="#">Users</a></li>
