@@ -13,7 +13,7 @@ window.history.replaceState({}, document.title, url);
 if (window.location.search.includes('created'))
     // Display the error message if needed
     window.onload = function() {
-        alert('Acoount is created! please login now.');
+        alert('Acoount is created! Check your email and login now.');
     };
 
 // Remove the error parameter from the URL

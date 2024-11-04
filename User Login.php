@@ -99,7 +99,7 @@
 
                     // Check if 'created' is set and handle it separately
                     if (isset($_GET["created"]) && $_GET["created"] == "none") {
-                        echo '<h5 style="color:green;padding-bottom:10px;">Account created</h5>';
+                        echo '<h5 style="color:green;padding-bottom:10px;">Account created,check your email</h5>';
                     }
                     ?>
 
