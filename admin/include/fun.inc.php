@@ -157,21 +157,23 @@ function bookigcreate($pdo, $passenger_name, $total_ticket, $total_price, $sched
     }
 
     // Prepare and execute the insert query
-    $stmt = $pdo->prepare("INSERT INTO bookings (ref_no, user_id, passenger_name, seats_booked, total_price, schedule_id, bus_id, route_id)
-                           VALUES (:ref_no, :user_id, :passenger_name, :seats_booked, :total_price, :schedule_id, :bus_id, :route_id)");
+    $stmt = $pdo->prepare("INSERT INTO bookings (ref_no, user_id, schedule_id, bus_id, route_id, passenger_name, seats_booked, total_price)
+                           VALUES (:ref_no, :user_id, :schedule_id, :bus_id, :route_id, :passenger_name, :seats_booked, :total_price)");
     $stmt->bindParam(':ref_no', $newRefNo);
-    $stmt->bindParam(':passenger_name', $passenger_name);
-    $stmt->bindParam(':seats_booked', $total_ticket);
-    $stmt->bindParam(':total_price', $total_price);
+    $stmt->bindParam(':user_id', $user_id);
     $stmt->bindParam(':schedule_id', $schedule_id);
     $stmt->bindParam(':bus_id', $bus_id);
     $stmt->bindParam(':route_id', $route_id);
-    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':passenger_name', $passenger_name);
+    $stmt->bindParam(':seats_booked', $total_ticket);
+    $stmt->bindParam(':total_price', $total_price);
 
+    // Execute and return success message
     if ($stmt->execute()) {
         return "Booking created successfully with reference number $newRefNo.";
     } else {
         return "Failed to create booking.";
     }
 }
+
 
