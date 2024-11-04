@@ -113,7 +113,7 @@ session_start();
 
                 <div class="row justify-content-center text-center" data-aos="fade-up" data-aos-delay="100">
                     <div class="col-xl-6 col-lg-8">
-                        <h2>Bus Managment System easy<span>.</span></h2>
+                        <h2>Bus Management System easy<span>.</span></h2>
                         <p class="txtcolor">Sri Lanka Transport Board - Mawanelle Depot.</p>
                     </div>
                 </div>
