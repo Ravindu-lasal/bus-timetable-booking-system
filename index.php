@@ -47,7 +47,7 @@ session_start();
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
+            <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <img src="assets/img/logo.jpg" alt="">
                 <!-- <h1 class="sitename">SLTB Mawanella</h1> -->
@@ -76,10 +76,9 @@ session_start();
                             <li><a href="#">help</a></li>
                         </ul>
                     </li>
-                    <li><a href="#contact">Contact</a></li>
                     <?php
                     if (isset($_SESSION["username"])) {
-                        echo '<li><a href="#">My Booking</a></li>';
+                        echo '<li><a href="booking.php">My Booking</a></li>';
                     }
                     ?>
                 </ul>

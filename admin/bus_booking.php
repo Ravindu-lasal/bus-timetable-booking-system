@@ -68,8 +68,8 @@
 
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-end mb-4">
-                    <button type="button" class="btn btn-primary">Delete All
-                    </button>
+                    <!-- <button type="button" class="btn btn-primary">Delete All
+                    </button> -->
                 </div>
                 <div class="table-responsive">
                     <table class="table text-start align-middle table-bordered table-hover mb-0">

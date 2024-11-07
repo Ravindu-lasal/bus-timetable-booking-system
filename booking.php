@@ -45,7 +45,7 @@ session_start();
 </head>
 
 <body class="">
-  <header id="header" class="header d-flex align-items-center  mb-4">
+  <header id="header" class="header d-flex align-items-center mb-4">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.php" class="logo d-flex align-items-center me-auto me-lg-0">
@@ -77,7 +77,7 @@ session_start();
           </li>
           <?php
           if (isset($_SESSION["username"])) {
-            echo '<li><a href="booking.php">My Booking</a></li>';
+            echo '<li><a href="#">My Booking</a></li>';
           }
           ?>
         </ul>
@@ -100,153 +100,85 @@ session_start();
     </div>
   </header>
 
-  <!-- bus Booking form -->
-  <div class="modal fade" id="AddBooking" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Add Booking</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form class="row g-3" id="addschedule" method="POST" action="./admin/include/Add_booking.php">
-            <input type="hidden" name="schedule_id" id="schedule_id">
-            <input type="hidden" name="bus_id" id="bus_id">
-            <input type="hidden" name="route_id" id="route_id">
-            <input type="hidden" name="user_id" value="<?php echo $_SESSION["userid"] ?>">
-            <div class="col-12">
-              <h6 class="fw-bolder">Bus Name</h6>
-              <p id="bus_name"></p>
-            </div>
-            <div class="col-8">
-              <h6 class="fw-bolder">Start Location</h6>
-              <p id="start_location"></p>
-            </div>
-            <div class="col-4">
-              <h6 for="starttime" class="fw-bolder">Start Time</h6>
-              <p id="starttime"></p>
-            </div>
-            <div class="col-8">
-              <h6 for="end_location" class="fw-bolder">End Location</h6>
-              <p id="end_location"></p>
-            </div>
-            <div class="col-4">
-              <h6 for="endtime" class="fw-bolder">End Time</h6>
-              <p id="endtime"></p>
-            </div>
-            <div class="col-md-8">
-              <h6 for="inputdate" class="fw-bolder">Travel Date</h6>
-              <p id="inputdate"></p>
-            </div>
-            <div class="col-8">
-              <h6 for="price" class="fw-bolder">Ticket Price (Rs)</h6>
-              <p id="ticket_price"></p>
-            </div>
-            <div class="col-12">
-              <h6 for="seats_available" class="fw-bolder">Available Seats</h6>
-              <p id="seats_available"></p>
-            </div>
-            <div class="col-12">
-              <label for="Bname" class="form-label fw-bolder">Booking name</label>
-              <input type="text" class="form-control" id="Bname" name="passenger_name" required>
-            </div>
-            <div class="col-md-6">
-              <label for="inputnumber" class="form-label fw-bolder">How many tickets</label>
-              <input type="number" min="0" max="10" class="form-control" id="inputnumber" name="total_ticket" required>
-            </div>
-            <div class="col-md-6">
-              <label for="total_price" class="form-label fw-bolder">Total price</label>
-              <input type="text" class="form-control" id="total_price" name="total_price">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" form="addschedule" class="btn btn-primary" id="Add_schedule">Booking Now</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-
 
 
   <div id="layoutSidenav_content">
     <main>
-      <div class="container-fluid px-4">
+      <div class="container-fluid px-4 ">
 
         <div class="card mb-4">
           <div class="card-header">
             <i class="fas fa-table me-1"></i>
             <h2 class="fw-bold">Booking Your Bus</h2>
           </div>
-          <div class="card-body">
-            <table id="datatablesSimple">
-              <thead>
-                <tr class="text-dark">
-                  <th scope="col">Bus number</th>
-                  <th scope="col">Start location</th>
-                  <th scope="col">Stop location</th>
-                  <th scope="col">Start time</th>
-                  <th scope="col">Traval Date</th>
-                  <th scope="col">Price</th>
-                  <?php
-                  if (isset($_SESSION["username"])) {
-                    echo '<th scope="col">Booking</th>';
-                  }
-                  ?>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr class="text-dark">
-                  <th scope="col">Bus number</th>
-                  <th scope="col">Start location</th>
-                  <th scope="col">Stop location</th>
-                  <th scope="col">Start time</th>
-                  <th scope="col">Traval Date</th>
-                  <th scope="col">Price</th>
-                  <?php
-                  if (isset($_SESSION["username"])) {
-                    echo '<th scope="col">Booking</th>';
-                  }
-                  ?>
-                </tr>
-              </tfoot>
-              <tbody>
-                <?php
-                // Assuming $pdo is your PDO instance connected to the database
-                $stmt = $pdo->query("SELECT s.schedule_id, b.bus_number, r.start_location, r.end_location, 
-                            s.start_time, s.end_time, s.travel_date, s.price 
-                       FROM schedules s 
-                       JOIN buses b ON s.bus_id = b.bus_id 
-                       JOIN routes r ON s.route_id = r.route_id;");
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+          <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">Ref.No</th>
+                                <th scope="col">User name</th>
+                                <th scope="col">schedule location</th>
+                                <th scope="col">bus name</th>
+                                <th scope="col">Booking date</th>
+                                <th scope="col">Booking name</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // Assuming $pdo is your PDO instance connected to the database
+                            $stmt = $pdo->query("
+    SELECT 
+        bookings.booking_id,
+        bookings.ref_no,
+        bookings.user_id,
+        bookings.schedule_id,
+        bookings.booking_date,
+        bookings.passenger_name,
+        bookings.seats_booked,
+        bookings.total_price,
+        bookings.status,
+        schedules.bus_id,
+        buses.bus_name,
+        users.username,
+        routes.start_location,
+        routes.end_location
+    FROM 
+        bookings
+    JOIN schedules ON bookings.schedule_id = schedules.schedule_id
+    JOIN buses ON schedules.bus_id = buses.bus_id
+    JOIN users ON bookings.user_id = users.user_id
+    JOIN routes ON schedules.route_id = routes.route_id
+");
 
-                foreach ($result as $row) {
-                  echo '<tr>';
-                  echo '<td>' . htmlspecialchars($row['bus_number']) . '</td>';
-                  echo '<td>' . htmlspecialchars($row['start_location']) . '</td>';
-                  echo '<td>' . htmlspecialchars($row['end_location']) . '</td>';
-                  echo '<td>' . htmlspecialchars($row['start_time']) . '</td>';
-                  echo '<td>' . htmlspecialchars($row['travel_date']) . '</td>';
-                  echo '<td>' . htmlspecialchars($row['price']) . '</td>';
-                  if (isset($_SESSION["username"])) {
-                    echo '<td class="justify-content-end">';
-                    echo '<a class="addbooking btn btn-primary btn-sm" href="#" role="button" data-bs-toggle="modal" 
-             data-bs-target="#AddBooking" data-id="' . $row['schedule_id'] . '">
-              <i class="fas fa-user-edit fa-lg"></i> Booking Now 
-          </a>';
-                    echo '</td>';
-                  }
-                  echo '</tr>';
-                }
-                ?>
-              </tbody>
+                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            </table>
-          </div>
+                            foreach ($result as $row) {
+                                echo '<tr>';
+                                echo '<td>' . htmlspecialchars($row['ref_no']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['username']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['start_location']) .'-'. htmlspecialchars($row['end_location']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['bus_name']) . '</td>'; // Displaying bus name
+                                echo '<td>' . htmlspecialchars($row['booking_date']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['passenger_name']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['seats_booked']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['total_price']) . '</td>';
+                                echo '<td>' . htmlspecialchars($row['status']) . '</td>';
+                                echo '<td class="d-flex align-items-lg-center justify-content-around">';
+                                echo '<a href="include/delete.php?type=bus_booking&id=' . $row['booking_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this booking?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
+                                echo '</td>';
+                                echo '</tr>';
+                            }
+                            ?>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
         </div>
       </div>
     </main>
