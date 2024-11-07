@@ -112,144 +112,83 @@ session_start();
             <h2 class="fw-bold">Booking Your Bus</h2>
           </div>
           <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
-                        <thead>
-                            <tr class="text-dark">
-                                <th scope="col">Ref.No</th>
-                                <th scope="col">User name</th>
-                                <th scope="col">schedule location</th>
-                                <th scope="col">bus name</th>
-                                <th scope="col">Booking date</th>
-                                <th scope="col">Booking name</th>
-                                <th scope="col">Qty</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Assuming $pdo is your PDO instance connected to the database
-                            $stmt = $pdo->query("
-    SELECT 
-        bookings.booking_id,
-        bookings.ref_no,
-        bookings.user_id,
-        bookings.schedule_id,
-        bookings.booking_date,
-        bookings.passenger_name,
-        bookings.seats_booked,
-        bookings.total_price,
-        bookings.status,
-        schedules.bus_id,
-        buses.bus_name,
-        users.username,
-        routes.start_location,
-        routes.end_location
-    FROM 
-        bookings
-    JOIN schedules ON bookings.schedule_id = schedules.schedule_id
-    JOIN buses ON schedules.bus_id = buses.bus_id
-    JOIN users ON bookings.user_id = users.user_id
-    JOIN routes ON schedules.route_id = routes.route_id
-");
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+              <thead>
+                <tr class="text-dark">
+                  <th scope="col">Ref.No</th>
+                  <th scope="col">User name</th>
+                  <th scope="col">schedule location</th>
+                  <th scope="col">bus name</th>
+                  <th scope="col">Booking date</th>
+                  <th scope="col">Booking name</th>
+                  <th scope="col">Qty</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                $user = $_SESSION["userid"];
 
-                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                // Assuming $pdo is your PDO instance connected to the database
+                $stmt = $pdo->prepare("
+        SELECT 
+            bookings.booking_id,
+            bookings.ref_no,
+            bookings.user_id,
+            bookings.schedule_id,
+            bookings.booking_date,
+            bookings.passenger_name,
+            bookings.seats_booked,
+            bookings.total_price,
+            bookings.status,
+            schedules.bus_id,
+            buses.bus_name,
+            users.username,
+            routes.start_location,
+            routes.end_location
+        FROM 
+            bookings
+        JOIN schedules ON bookings.schedule_id = schedules.schedule_id
+        JOIN buses ON schedules.bus_id = buses.bus_id
+        JOIN users ON bookings.user_id = users.user_id
+        JOIN routes ON schedules.route_id = routes.route_id
+        WHERE bookings.user_id = :user_id
+    ");
 
-                            foreach ($result as $row) {
-                                echo '<tr>';
-                                echo '<td>' . htmlspecialchars($row['ref_no']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['username']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['start_location']) .'-'. htmlspecialchars($row['end_location']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['bus_name']) . '</td>'; // Displaying bus name
-                                echo '<td>' . htmlspecialchars($row['booking_date']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['passenger_name']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['seats_booked']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['total_price']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['status']) . '</td>';
-                                echo '<td class="d-flex align-items-lg-center justify-content-around">';
-                                echo '<a href="include/delete.php?type=bus_booking&id=' . $row['booking_id'] . '" class="m-1" onclick="return confirm(\'Are you sure you want to delete this booking?\')"><i class="fas fa-trash-alt fa-lg"></i></a>';
-                                echo '</td>';
-                                echo '</tr>';
-                            }
-                            ?>
+                // Bind the user ID parameter
+                $stmt->bindParam(':user_id', $user, PDO::PARAM_INT);
 
+                // Execute the query
+                $stmt->execute();
 
+                // Fetch all results
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                        </tbody>
-                    </table>
-                </div>
+                // Display results in table rows
+                foreach ($result as $row) {
+                  echo '<tr>';
+                  echo '<td>' . htmlspecialchars($row['ref_no']) . '</td>';
+                  echo '<td>' . htmlspecialchars($row['username']) . '</td>';
+                  echo '<td>' . htmlspecialchars($row['start_location']) . '-' . htmlspecialchars($row['end_location']) . '</td>';
+                  echo '<td>' . htmlspecialchars($row['bus_name']) . '</td>';
+                  echo '<td>' . htmlspecialchars($row['booking_date']) . '</td>';
+                  echo '<td>' . htmlspecialchars($row['passenger_name']) . '</td>';
+                  echo '<td>' . htmlspecialchars($row['seats_booked']) . '</td>';
+                  echo '<td>' . htmlspecialchars($row['total_price']) . '</td>';
+                  echo '<td>' . htmlspecialchars($row['status']) . '</td>';
+                  echo '</tr>';
+                }
+                ?>
+              </tbody>
+
+            </table>
+          </div>
         </div>
       </div>
     </main>
 
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-      // Function to calculate total price
-      function calculateTotalPrice() {
-        const ticketPrice = parseFloat(document.getElementById('ticket_price').textContent);
-        const seatCount = parseInt(document.getElementById('inputnumber').value) || 0;
-        const totalPrice = ticketPrice * seatCount;
-        document.getElementById('total_price').value = totalPrice.toFixed(2); // Display the total price
-      }
-
-      document.querySelectorAll('.addbooking[data-bs-toggle="modal"]').forEach(button => {
-        button.addEventListener('click', (event) => {
-          const scheduleId = button.getAttribute('data-id');
-
-          // Make AJAX request to fetch schedule details
-          fetch(`admin/include/get_schedule_details.php?schedule_id=${scheduleId}`)
-            .then(response => response.json())
-            .then(data => {
-              if (!data.error) {
-                document.getElementById('schedule_id').value = data.schedule_id;
-                document.getElementById('bus_id').value = data.bus_id;
-                document.getElementById('route_id').value = data.route_id;
-                document.getElementById('bus_name').textContent = data.bus_number;
-                document.getElementById('start_location').textContent = data.start_location;
-                document.getElementById('starttime').textContent = data.start_time;
-                document.getElementById('end_location').textContent = data.end_location;
-                document.getElementById('endtime').textContent = data.end_time;
-                document.getElementById('inputdate').textContent = data.travel_date;
-                document.getElementById('ticket_price').textContent = data.price;
-
-                // Update seat availability
-                const seatsAvailableElem = document.getElementById('seats_available');
-                if (data.available_seats > 0) {
-                  seatsAvailableElem.textContent = data.available_seats;
-                  document.getElementById('Bname').disabled = false;
-                  document.getElementById('inputnumber').disabled = false;
-                  document.getElementById('total_price').disabled = false;
-                  document.getElementById('Add_schedule').disabled = false;
-                } else {
-                  seatsAvailableElem.textContent = "All seats are booked";
-                  document.getElementById('Bname').disabled = true;
-                  document.getElementById('inputnumber').disabled = true;
-                  document.getElementById('total_price').disabled = true;
-                  document.getElementById('Add_schedule').disabled = true;
-                }
-
-                document.getElementById('total_price').value = '0.00';
-                document.getElementById('inputnumber').value = '';
-
-                // Enable seat number input only if there are available seats
-                if (data.available_seats > 0) {
-                  document.getElementById('inputnumber').addEventListener('input', calculateTotalPrice);
-                }
-              } else {
-                alert(data.error);
-              }
-            })
-            .catch(error => {
-              console.error('Error fetching data:', error);
-            });
-        });
-      });
-    });
-  </script>
 
 
   <!-- Vendor JS Files -->
