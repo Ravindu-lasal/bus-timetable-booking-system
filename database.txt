@@ -1,0 +1,61 @@
+CREATE TABLE `admin` (
+  `admin_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `admin_name` varchar(50) NOT NULL UNIQUE,
+  `email` varchar(100) NOT NULL UNIQUE,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+);
+
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `username` varchar(50) NOT NULL UNIQUE,
+  `email` varchar(100) NOT NULL UNIQUE,
+  `password` varchar(255) NOT NULL,
+  `contact_number` varchar(15) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+);
+
+CREATE TABLE `buses` (
+  `bus_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `bus_name` varchar(50) NOT NULL,
+  `bus_number` varchar(10) NOT NULL,
+  `seats_available` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+);
+
+CREATE TABLE `routes` (
+  `route_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `start_location` varchar(100) NOT NULL,
+  `end_location` varchar(100) NOT NULL,
+  `distance_km` decimal(5,2) NOT NULL
+);
+
+CREATE TABLE `schedules` (
+  `schedule_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `bus_id` int(11),
+  `route_id` int(11),
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `travel_date` date NOT NULL,
+  `price` decimal(6,2) NOT NULL,
+  FOREIGN KEY (`bus_id`) REFERENCES `buses` (`bus_id`),
+  FOREIGN KEY (`route_id`) REFERENCES `routes` (`route_id`)
+);
+
+CREATE TABLE `bookings` (
+  `booking_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `ref_no` int(11) UNIQUE,
+  `user_id` int(11),
+  `schedule_id` int(11),
+  `bus_id` int(11),
+  `route_id` int(11),
+  `booking_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `passenger_name` varchar(100) NOT NULL,
+  `seats_booked` int(11) NOT NULL,
+  `total_price` decimal(8,2) NOT NULL,
+  `status` enum('Confirmed','Cancelled') DEFAULT 'Confirmed',
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`schedule_id`),
+  FOREIGN KEY (`bus_id`) REFERENCES `buses` (`bus_id`),
+  FOREIGN KEY (`route_id`) REFERENCES `routes` (`route_id`)
+);
